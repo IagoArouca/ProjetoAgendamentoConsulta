@@ -10,6 +10,7 @@ import { RealtimeModule } from './modules/realtime/realtime.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ProvidersModule } from './modules/providers/providers.module';
+import { CustomersModule } from './modules/customers/customers.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ProvidersModule } from './modules/providers/providers.module';
     AuthModule,
     UsersModule,
     ProvidersModule,
+    CustomersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

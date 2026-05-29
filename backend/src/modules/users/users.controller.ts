@@ -7,7 +7,6 @@ import { Roles } from 'src/shared/decorators/roles.decorator';
 import { UserRole } from '@prisma/client';
 
 @Controller('users')
-
 export class UsersController {
     constructor(private usersService: UsersService) {}
 
