@@ -8,6 +8,8 @@ import { BullModule } from '@nestjs/bullmq';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { RealtimeModule } from './modules/realtime/realtime.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { ProvidersModule } from './modules/providers/providers.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { AuthModule } from './modules/auth/auth.module';
     NotificationsModule,
     RealtimeModule,
     AuthModule,
+    UsersModule,
+    ProvidersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,10 +6,7 @@ export class CreateAppointmentDto {
     date!: string;
 
     @IsNotEmpty()
-    @IsUUID()
     providerId!: string;
 
-    @IsNotEmpty()
-    @IsUUID()
-    userId!: string;
+
 }

@@ -1,0 +1,72 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  backend-testing:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: iago_dev
+          POSTGRES_PASSWORD: password123
+          POSTGRES_DB: agendamento_projeto
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Instalar dependências do Backend
+        run: |
+          cd backend
+          npm ci
+
+      - name: Rodar as Migrations do Prisma (Ambiente de Teste)
+        env:
+          DATABASE_URL: "postgres://iago_dev:password123@localhost:5432/agendamento_projeto?schema=public"
+        run: |
+          cd backend
+          npx prisma migrate deploy
+
+      - name: Executar o Linter (Boas Práticas de Código)
+        run: |
+          cd backend
+          npm run lint
+
+      - name: Executar os Testes Unitários e Cobertura
+        env:
+          DATABASE_URL: "postgres://iago_dev:password123@localhost:5432/agendamento_projeto?schema=public"
+          JWT_SECRET: "ci_secret_test_key_12345"
+        run: |
+          cd backend
+          npm run test:cov

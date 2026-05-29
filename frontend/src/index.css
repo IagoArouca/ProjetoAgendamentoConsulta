@@ -1,0 +1,8 @@
+@import "tailwindcss"; /* Nova sintaxe simplificada do Tailwind v4 */
+
+body {
+  margin: 0;
+  background-color: #f8fafc;
+  font-family: 'Inter', sans-serif;
+  color: #0f172a;
+}
